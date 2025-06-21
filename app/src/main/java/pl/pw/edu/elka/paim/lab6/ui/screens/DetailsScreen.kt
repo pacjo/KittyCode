@@ -1,11 +1,5 @@
-package pl.pw.edu.elka.paim.lab6.ui.activities
+package pl.pw.edu.elka.paim.lab6.ui.screens
 
-import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,66 +26,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import kotlinx.serialization.Serializable
 import pl.pw.edu.elka.paim.lab6.R
 import pl.pw.edu.elka.paim.lab6.data.StatusCodeInfo
 import pl.pw.edu.elka.paim.lab6.ui.composables.StatusCodeImage
 import pl.pw.edu.elka.paim.lab6.ui.theme.AppTheme
 
-class DetailsActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-
-        val codeInfo = StatusCodeInfo.getCodeInfoFromIntent(intent)
-
-        setContent {
-            val context = LocalContext.current
-
-            // quit on fail
-            if (codeInfo == null) {
-                Toast.makeText(
-                    context,
-                    R.string.message_failed_retrieving_item,
-                    Toast.LENGTH_SHORT
-                ).show()
-                this.finish()
-                return@setContent       // to allow for codeInfo smart-cast
-            }
-
-            AppTheme {
-                DetailsScreen(codeInfo)
-            }
-        }
-    }
-
-    companion object {
-        const val TAG = "DetailsActivity"
-    }
-}
+@Serializable
+data class DetailsScreen(val statusCodeInfo: StatusCodeInfo)
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-private fun DetailsScreen(statusCodeInfo: StatusCodeInfo) {
-    val activity = LocalActivity.current
-
+fun DetailsScreen(detailsScreen: DetailsScreen, navController: NavController) {
+    val statusCodeInfo = detailsScreen.statusCodeInfo
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(statusCodeInfo.title!!) },
                 navigationIcon = {
-                    val shape = MaterialShapes.Sunny.toShape()
+                    val shape = MaterialShapes.Companion.Sunny.toShape()
                     IconButton(
-                        onClick = {
-                            // not-null assertion here since crashing is closer to going back
-                            // then not doing anything
-                            activity!!.finish()
-                        },
+                        onClick = { navController.navigateUp() },
                         colors = IconButtonDefaults.iconButtonColors(
                             containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                         ),
@@ -107,17 +69,17 @@ private fun DetailsScreen(statusCodeInfo: StatusCodeInfo) {
         }
     ) { innerPadding ->
         Column(
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .fillMaxSize()
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.Companion.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             StatusCodeImage(statusCodeInfo)
 
             Column(
-                modifier = Modifier
+                modifier = Modifier.Companion
                     .padding(16.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .fillMaxWidth()
@@ -125,7 +87,7 @@ private fun DetailsScreen(statusCodeInfo: StatusCodeInfo) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = AnnotatedString.fromHtml(statusCodeInfo.description!!),
+                    text = AnnotatedString.Companion.fromHtml(statusCodeInfo.description!!),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -146,6 +108,6 @@ private fun DetailsScreenPreview() {
     )
 
     AppTheme {
-        DetailsScreen(statusCodeInfo)
+        DetailsScreen(DetailsScreen(statusCodeInfo), rememberNavController())
     }
 }
