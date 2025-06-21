@@ -35,10 +35,10 @@ fun CodeSearchBar(
     onExpandedChange: (Boolean) -> Unit
 ) {
     Box(
-        modifier = Modifier.Companion.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
         SearchBar(
-            modifier = Modifier.Companion.align(Alignment.Companion.TopCenter),
+            modifier = Modifier.align(Alignment.TopCenter),
             inputField = {
                 SearchBarDefaults.InputField(
                     query = query,
@@ -60,8 +60,8 @@ fun CodeSearchBar(
                 items(items = searchResults) { searchResult ->
                     ListItem(
                         headlineContent = { Text(searchResult) },
-                        colors = ListItemDefaults.colors(containerColor = Color.Companion.Transparent),
-                        modifier = Modifier.Companion
+                        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+                        modifier = Modifier
                             .clickable {
                                 onResultClick(searchResult)
                                 onExpandedChange(false)

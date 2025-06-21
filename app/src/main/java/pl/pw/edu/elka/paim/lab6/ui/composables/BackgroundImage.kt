@@ -21,21 +21,21 @@ fun BackgroundImage(text: String) {
     val tintColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.25f)
 
     Column(
-        modifier = Modifier.Companion.fillMaxSize(),
-        horizontalAlignment = Alignment.Companion.CenterHorizontally,
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Image(
             painter = painterResource(R.drawable.cat),
             contentDescription = null,
-            modifier = Modifier.Companion.fillMaxWidth(),
-            contentScale = ContentScale.Companion.Fit,
-            colorFilter = ColorFilter.Companion.tint(tintColor)
+            modifier = Modifier.fillMaxWidth(),
+            contentScale = ContentScale.Fit,
+            colorFilter = ColorFilter.tint(tintColor)
         )
         Text(
             text = text,
             color = tintColor,
-            fontWeight = FontWeight.Companion.ExtraBold
+            fontWeight = FontWeight.ExtraBold
         )
     }
 }

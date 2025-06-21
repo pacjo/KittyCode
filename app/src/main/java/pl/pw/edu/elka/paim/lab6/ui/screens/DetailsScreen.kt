@@ -1,5 +1,9 @@
 package pl.pw.edu.elka.paim.lab6.ui.screens
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,22 +40,34 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.serialization.Serializable
 import pl.pw.edu.elka.paim.lab6.R
 import pl.pw.edu.elka.paim.lab6.data.StatusCodeInfo
+import pl.pw.edu.elka.paim.lab6.ui.activities.MORE_INFO_SHARED_TRANSITION_KEY
+import pl.pw.edu.elka.paim.lab6.ui.activities.STATUS_CODE_IMAGE_SHARED_TRANSITION_KEY
 import pl.pw.edu.elka.paim.lab6.ui.composables.StatusCodeImage
-import pl.pw.edu.elka.paim.lab6.ui.theme.AppTheme
+import pl.pw.edu.elka.paim.lab6.ui.utils.PreviewScope
 
 @Serializable
 data class DetailsScreen(val statusCodeInfo: StatusCodeInfo)
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3ExpressiveApi::class,
+    ExperimentalSharedTransitionApi::class
+)
 @Composable
-fun DetailsScreen(detailsScreen: DetailsScreen, navController: NavController) {
+fun DetailsScreen(
+    detailsScreen: DetailsScreen,
+    navController: NavController,       // TODO: don't pass, callback from MainActivity instead
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope,
+) {
     val statusCodeInfo = detailsScreen.statusCodeInfo
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(statusCodeInfo.title!!) },
                 navigationIcon = {
-                    val shape = MaterialShapes.Companion.Sunny.toShape()
+                    val shape = MaterialShapes.Sunny.toShape()
                     IconButton(
                         onClick = { navController.navigateUp() },
                         colors = IconButtonDefaults.iconButtonColors(
@@ -69,32 +85,46 @@ fun DetailsScreen(detailsScreen: DetailsScreen, navController: NavController) {
         }
     ) { innerPadding ->
         Column(
-            modifier = Modifier.Companion
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.Companion.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            StatusCodeImage(statusCodeInfo)
-
-            Column(
-                modifier = Modifier.Companion
-                    .padding(16.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surfaceContainer)
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = AnnotatedString.Companion.fromHtml(statusCodeInfo.description!!),
-                    style = MaterialTheme.typography.bodyMedium
+            with(sharedTransitionScope) {
+                // TODO: would be nice to merge this with the one in MainScreen
+                @Composable
+                fun sharedElementModifier(key: String) = Modifier.sharedElement(
+                    sharedTransitionScope.rememberSharedContentState(key),
+                    animatedVisibilityScope = animatedContentScope
                 )
+
+                StatusCodeImage(
+                    modifier = sharedElementModifier(STATUS_CODE_IMAGE_SHARED_TRANSITION_KEY),
+                    statusCodeInfo = statusCodeInfo
+                )
+
+                Column(
+                    modifier = sharedElementModifier(MORE_INFO_SHARED_TRANSITION_KEY)
+                        .padding(16.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surfaceContainer)
+                        .padding(8.dp),
+                ) {
+                    Text(
+                        text = AnnotatedString.fromHtml(statusCodeInfo.description!!),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
         }
     }
 }
 
+@SuppressLint("UnusedContentLambdaTargetStateParameter")
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Preview(showBackground = true)
 @Composable
 private fun DetailsScreenPreview() {
@@ -107,7 +137,12 @@ private fun DetailsScreenPreview() {
         imageUrl = "https://http.cat/images/418.jpg"
     )
 
-    AppTheme {
-        DetailsScreen(DetailsScreen(statusCodeInfo), rememberNavController())
+    PreviewScope { sharedTransitionScope, animatedContentScope ->
+        DetailsScreen(
+            DetailsScreen(statusCodeInfo),
+            rememberNavController(),
+            sharedTransitionScope,
+            animatedContentScope
+        )
     }
 }

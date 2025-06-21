@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
@@ -31,24 +33,41 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+const val STATUS_CODE_IMAGE_SHARED_TRANSITION_KEY = "statusCodeImage"
+const val MORE_INFO_SHARED_TRANSITION_KEY = "moreInfo"
+
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun App() {
     val navController = rememberNavController()
 
     AppTheme {
-        NavHost(
-            navController = navController,
-            startDestination = MainScreen
-        ) {
-            composable<MainScreen> { MainScreen(navController) }
+        SharedTransitionLayout {
+            NavHost(
+                navController = navController,
+                startDestination = MainScreen
+            ) {
+                composable<MainScreen> {
+                    MainScreen(
+                        navController,
+                        this@SharedTransitionLayout,
+                        this@composable,
+                    )
+                }
 
-            composable<DetailsScreen>(
-                typeMap = mapOf(
-                    typeOf<StatusCodeInfo>() to StatusCodeInfo.type
-                )
-            ) { backStackEntry ->
-                val detailsScreen = backStackEntry.toRoute<DetailsScreen>()
-                DetailsScreen(detailsScreen, navController)
+                composable<DetailsScreen>(
+                    typeMap = mapOf(
+                        typeOf<StatusCodeInfo>() to StatusCodeInfo.type
+                    )
+                ) { backStackEntry ->
+                    val detailsScreen = backStackEntry.toRoute<DetailsScreen>()
+                    DetailsScreen(
+                        detailsScreen,
+                        navController,
+                        this@SharedTransitionLayout,
+                        this@composable
+                    )
+                }
             }
         }
     }

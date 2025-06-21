@@ -3,6 +3,9 @@ package pl.pw.edu.elka.paim.lab6.ui.screens
 import android.annotation.SuppressLint
 import android.os.Build
 import android.widget.Toast
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,27 +37,37 @@ import kotlinx.serialization.Serializable
 import pl.pw.edu.elka.paim.lab6.R
 import pl.pw.edu.elka.paim.lab6.data.ApiClient.getCodeDetails
 import pl.pw.edu.elka.paim.lab6.data.StatusCodeInfo
+import pl.pw.edu.elka.paim.lab6.ui.activities.MORE_INFO_SHARED_TRANSITION_KEY
+import pl.pw.edu.elka.paim.lab6.ui.activities.STATUS_CODE_IMAGE_SHARED_TRANSITION_KEY
 import pl.pw.edu.elka.paim.lab6.ui.composables.BackgroundImage
 import pl.pw.edu.elka.paim.lab6.ui.composables.CodeSearchBar
 import pl.pw.edu.elka.paim.lab6.ui.composables.FullPageLoadingIndicator
 import pl.pw.edu.elka.paim.lab6.ui.composables.StatusCodeImage
-import pl.pw.edu.elka.paim.lab6.ui.theme.AppTheme
+import pl.pw.edu.elka.paim.lab6.ui.utils.PreviewScope
 
 @Serializable
 object MainScreen
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
-fun MainScreen(navController: NavController) {
+fun MainScreen(
+    navController: NavController,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope,
+) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+
+    // TODO: check - https://developer.android.com/develop/ui/compose/animation/shared-elements
+//    LocalSharedTransitionScope.current
+//    LocalNavAnimatedVisibilityScope.current
 
     var query by remember { mutableStateOf("") }
     var queryHistory = remember { mutableStateListOf<String>() }
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     var loading by remember { mutableStateOf(false) }
-    var codeInfo by remember { mutableStateOf<StatusCodeInfo?>(null) }
+    var codeInfo by rememberSaveable { mutableStateOf<StatusCodeInfo?>(null) }
 
     fun queryApi(query: String) {
         try {
@@ -129,15 +142,28 @@ fun MainScreen(navController: NavController) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    StatusCodeImage(codeInfo)
+                    with(sharedTransitionScope) {
+                        // TODO: would be nice to merge this with the one in DetailsScreen
+                        @Composable
+                        fun sharedElementModifier(key: String) = Modifier.sharedElement(
+                            sharedTransitionScope.rememberSharedContentState(key),
+                            animatedVisibilityScope = animatedContentScope
+                        )
 
-                    Spacer(Modifier.height(16.dp))
+                        StatusCodeImage(
+                            modifier = sharedElementModifier(STATUS_CODE_IMAGE_SHARED_TRANSITION_KEY),
+                            statusCodeInfo = codeInfo
+                        )
 
-                    FilledTonalButton(
-                        onClick = { navController.navigate(DetailsScreen(codeInfo)) },
-                        shape = squareShape
-                    ) {
-                        Text(stringResource(R.string.see_more))
+                        Spacer(Modifier.height(16.dp))
+
+                        FilledTonalButton(
+                            onClick = { navController.navigate(DetailsScreen(codeInfo)) },
+                            modifier = sharedElementModifier(MORE_INFO_SHARED_TRANSITION_KEY),
+                            shape = squareShape
+                        ) {
+                            Text(stringResource(R.string.see_more))
+                        }
                     }
                 }
             }
@@ -149,10 +175,15 @@ fun MainScreen(navController: NavController) {
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Preview(showBackground = true)
 @Composable
 private fun MainScreenPreview() {
-    AppTheme {
-        MainScreen(rememberNavController())
+    PreviewScope { sharedTransitionScope, animatedContentScope ->
+        MainScreen(
+            rememberNavController(),
+            sharedTransitionScope,
+            animatedContentScope
+        )
     }
 }

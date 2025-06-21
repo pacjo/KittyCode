@@ -10,13 +10,16 @@ import coil3.compose.AsyncImage
 import pl.pw.edu.elka.paim.lab6.data.StatusCodeInfo
 
 @Composable
-fun StatusCodeImage(statusCodeInfo: StatusCodeInfo) {
+fun StatusCodeImage(
+    modifier: Modifier = Modifier,
+    statusCodeInfo: StatusCodeInfo
+) {
     AsyncImage(
         model = statusCodeInfo.imageUrl,
         contentDescription = null,
-        modifier = Modifier.Companion
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp),
-        contentScale = ContentScale.Companion.Fit
+        contentScale = ContentScale.Fit
     )
 }

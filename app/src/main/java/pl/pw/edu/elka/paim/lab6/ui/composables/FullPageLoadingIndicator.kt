@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 @Composable
 fun FullPageLoadingIndicator() {
     Box(
-        modifier = Modifier.Companion.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         CircularWavyProgressIndicator()
