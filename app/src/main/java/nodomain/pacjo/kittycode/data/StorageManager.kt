@@ -19,7 +19,7 @@ object StorageManager {
 
     fun getSearchHistory(context: Context): List<String> {
         val sharedPrefs = getSharedPreferences(context)
-        val savedHistory = sharedPrefs.getString(SEARCH_HISTORY_KEY, null) ?: "{[]}"    // default to empty list
+        val savedHistory = sharedPrefs.getString(SEARCH_HISTORY_KEY, null) ?: "[]"    // default to empty list
 
         return  Json.decodeFromString<List<String>>(savedHistory)
     }
