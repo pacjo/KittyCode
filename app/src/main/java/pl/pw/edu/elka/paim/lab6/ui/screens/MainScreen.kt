@@ -17,6 +17,7 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -37,13 +38,14 @@ import kotlinx.serialization.Serializable
 import pl.pw.edu.elka.paim.lab6.R
 import pl.pw.edu.elka.paim.lab6.data.ApiClient.getCodeDetails
 import pl.pw.edu.elka.paim.lab6.data.StatusCodeInfo
-import pl.pw.edu.elka.paim.lab6.ui.activities.MORE_INFO_SHARED_TRANSITION_KEY
-import pl.pw.edu.elka.paim.lab6.ui.activities.STATUS_CODE_IMAGE_SHARED_TRANSITION_KEY
 import pl.pw.edu.elka.paim.lab6.ui.composables.BackgroundImage
 import pl.pw.edu.elka.paim.lab6.ui.composables.CodeSearchBar
 import pl.pw.edu.elka.paim.lab6.ui.composables.FullPageLoadingIndicator
 import pl.pw.edu.elka.paim.lab6.ui.composables.StatusCodeImage
 import pl.pw.edu.elka.paim.lab6.ui.utils.PreviewScope
+import pl.pw.edu.elka.paim.lab6.data.StorageManager
+import pl.pw.edu.elka.paim.lab6.ui.activities.MORE_INFO_SHARED_TRANSITION_KEY
+import pl.pw.edu.elka.paim.lab6.ui.activities.STATUS_CODE_IMAGE_SHARED_TRANSITION_KEY
 
 @Serializable
 object MainScreen
@@ -85,6 +87,7 @@ fun MainScreen(
             expanded = false
             loading = true
             coroutineScope.launch {
+                StorageManager.saveSearchHistory(context, queryHistory.toList())
                 codeInfo = getCodeDetails(httpCode)
 
                 // in case we get broken data let's not show anything
@@ -106,6 +109,11 @@ fun MainScreen(
                 Toast.LENGTH_LONG
             ).show()
         }
+    }
+
+    LaunchedEffect(Unit) {
+        // add history from storage
+        queryHistory.addAll(StorageManager.getSearchHistory(context))
     }
 
     // we want the expanded searchbar background to go under the system bars, so let's ignore innerPadding
