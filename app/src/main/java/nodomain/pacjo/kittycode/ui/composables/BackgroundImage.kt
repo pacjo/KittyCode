@@ -1,4 +1,4 @@
-package pl.pw.edu.elka.paim.lab6.ui.composables
+package nodomain.pacjo.kittycode.ui.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import pl.pw.edu.elka.paim.lab6.R
+import nodomain.pacjo.kittycode.R
 
 @Composable
 fun BackgroundImage(text: String) {

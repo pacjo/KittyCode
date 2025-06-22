@@ -1,4 +1,4 @@
-package pl.pw.edu.elka.paim.lab6.ui.composables
+package nodomain.pacjo.kittycode.ui.composables
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

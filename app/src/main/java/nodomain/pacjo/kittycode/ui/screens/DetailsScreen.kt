@@ -1,4 +1,4 @@
-package pl.pw.edu.elka.paim.lab6.ui.screens
+package nodomain.pacjo.kittycode.ui.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContentScope
@@ -38,12 +38,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.serialization.Serializable
-import pl.pw.edu.elka.paim.lab6.R
-import pl.pw.edu.elka.paim.lab6.data.StatusCodeInfo
-import pl.pw.edu.elka.paim.lab6.ui.activities.MORE_INFO_SHARED_TRANSITION_KEY
-import pl.pw.edu.elka.paim.lab6.ui.activities.STATUS_CODE_IMAGE_SHARED_TRANSITION_KEY
-import pl.pw.edu.elka.paim.lab6.ui.composables.StatusCodeImage
-import pl.pw.edu.elka.paim.lab6.ui.utils.PreviewScope
+import nodomain.pacjo.kittycode.R
+import nodomain.pacjo.kittycode.data.StatusCodeInfo
+import nodomain.pacjo.kittycode.ui.activities.MORE_INFO_SHARED_TRANSITION_KEY
+import nodomain.pacjo.kittycode.ui.activities.STATUS_CODE_IMAGE_SHARED_TRANSITION_KEY
+import nodomain.pacjo.kittycode.ui.composables.StatusCodeImage
+import nodomain.pacjo.kittycode.ui.utils.PreviewScope
 
 @Serializable
 data class DetailsScreen(val statusCodeInfo: StatusCodeInfo)

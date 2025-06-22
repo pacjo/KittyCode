@@ -1,4 +1,4 @@
-package pl.pw.edu.elka.paim.lab6.ui.utils
+package nodomain.pacjo.kittycode.ui.utils
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
@@ -7,7 +7,7 @@ import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.runtime.Composable
-import pl.pw.edu.elka.paim.lab6.ui.theme.AppTheme
+import nodomain.pacjo.kittycode.ui.theme.AppTheme
 
 @SuppressLint("UnusedContentLambdaTargetStateParameter")
 @OptIn(ExperimentalSharedTransitionApi::class)

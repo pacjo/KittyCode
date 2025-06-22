@@ -1,4 +1,4 @@
-package pl.pw.edu.elka.paim.lab6.ui.activities
+package nodomain.pacjo.kittycode.ui.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,10 +13,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import kotlin.reflect.typeOf
-import pl.pw.edu.elka.paim.lab6.data.StatusCodeInfo
-import pl.pw.edu.elka.paim.lab6.ui.screens.DetailsScreen
-import pl.pw.edu.elka.paim.lab6.ui.screens.MainScreen
-import pl.pw.edu.elka.paim.lab6.ui.theme.AppTheme
+import nodomain.pacjo.kittycode.data.StatusCodeInfo
+import nodomain.pacjo.kittycode.ui.screens.DetailsScreen
+import nodomain.pacjo.kittycode.ui.screens.MainScreen
+import nodomain.pacjo.kittycode.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

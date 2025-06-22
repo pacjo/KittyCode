@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "pl.pw.edu.elka.paim.lab6"
+    namespace = "nodomain.pacjo.kittycode"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "pl.pw.edu.elka.paim.lab6"
+        applicationId = "nodomain.pacjo.kittycode"
         minSdk = 26
         targetSdk = 35
         versionCode = 10

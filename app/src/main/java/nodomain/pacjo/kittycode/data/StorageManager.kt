@@ -1,4 +1,4 @@
-package pl.pw.edu.elka.paim.lab6.data
+package nodomain.pacjo.kittycode.data
 
 import android.content.Context
 import android.content.SharedPreferences

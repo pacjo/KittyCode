@@ -1,4 +1,4 @@
-package pl.pw.edu.elka.paim.lab6.ui.theme
+package nodomain.pacjo.kittycode.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

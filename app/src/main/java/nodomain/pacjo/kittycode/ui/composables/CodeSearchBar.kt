@@ -1,4 +1,4 @@
-package pl.pw.edu.elka.paim.lab6.ui.composables
+package nodomain.pacjo.kittycode.ui.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import pl.pw.edu.elka.paim.lab6.R
+import nodomain.pacjo.kittycode.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

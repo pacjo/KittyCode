@@ -1,4 +1,4 @@
-package pl.pw.edu.elka.paim.lab6.data
+package nodomain.pacjo.kittycode.data
 
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
@@ -68,7 +68,7 @@ object ApiClient {
     fun getImageUrlForCode(httpCode: Int): String {
         return "$URL/$httpCode"
     }
-    
+
     suspend fun getCodeDetails(httpCode: Int): StatusCodeInfo {
         val content = withContext(Dispatchers.IO) {
             fetchStatusPageContent(httpCode)

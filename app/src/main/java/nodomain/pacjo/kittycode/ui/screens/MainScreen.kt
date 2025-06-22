@@ -1,4 +1,4 @@
-package pl.pw.edu.elka.paim.lab6.ui.screens
+package nodomain.pacjo.kittycode.ui.screens
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -35,17 +35,17 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
-import pl.pw.edu.elka.paim.lab6.R
-import pl.pw.edu.elka.paim.lab6.data.ApiClient.getCodeDetails
-import pl.pw.edu.elka.paim.lab6.data.StatusCodeInfo
-import pl.pw.edu.elka.paim.lab6.ui.composables.BackgroundImage
-import pl.pw.edu.elka.paim.lab6.ui.composables.CodeSearchBar
-import pl.pw.edu.elka.paim.lab6.ui.composables.FullPageLoadingIndicator
-import pl.pw.edu.elka.paim.lab6.ui.composables.StatusCodeImage
-import pl.pw.edu.elka.paim.lab6.ui.utils.PreviewScope
-import pl.pw.edu.elka.paim.lab6.data.StorageManager
-import pl.pw.edu.elka.paim.lab6.ui.activities.MORE_INFO_SHARED_TRANSITION_KEY
-import pl.pw.edu.elka.paim.lab6.ui.activities.STATUS_CODE_IMAGE_SHARED_TRANSITION_KEY
+import nodomain.pacjo.kittycode.R
+import nodomain.pacjo.kittycode.data.ApiClient.getCodeDetails
+import nodomain.pacjo.kittycode.data.StatusCodeInfo
+import nodomain.pacjo.kittycode.ui.composables.BackgroundImage
+import nodomain.pacjo.kittycode.ui.composables.CodeSearchBar
+import nodomain.pacjo.kittycode.ui.composables.FullPageLoadingIndicator
+import nodomain.pacjo.kittycode.ui.composables.StatusCodeImage
+import nodomain.pacjo.kittycode.ui.utils.PreviewScope
+import nodomain.pacjo.kittycode.data.StorageManager
+import nodomain.pacjo.kittycode.ui.activities.MORE_INFO_SHARED_TRANSITION_KEY
+import nodomain.pacjo.kittycode.ui.activities.STATUS_CODE_IMAGE_SHARED_TRANSITION_KEY
 
 @Serializable
 object MainScreen
